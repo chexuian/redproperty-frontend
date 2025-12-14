@@ -1,4 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PropertyService } from '../services/property.service';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { ZardAvatarComponent } from '@shared/components/avatar/avatar.component';
@@ -14,21 +16,12 @@ import { ZardRadioComponent } from '@shared/components/radio/radio.component';
 import { ZardSegmentedComponent } from '@shared/components/segmented/segmented.component';
 import { ZardSkeletonComponent } from '@shared/components/skeleton/skeleton.component';
 import { ZardTooltipModule } from '@shared/components/tooltip/tooltip';
-import { PropertyService } from './services/property.service';
-import { PaginatedResponse, Property } from './models/property.model';
-import { DecimalPipe } from '@angular/common';
-
-interface MenuItem {
-  icon: ZardIcon;
-  label: string;
-  navigateUrl: string;
-  submenu?: { label: string }[];
-}
+import { Property } from '../models/property.model';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-property-detail',
   imports: [
-    RouterOutlet,
     LayoutModule,
     FormsModule,
     ZardButtonComponent,
@@ -43,35 +36,25 @@ interface MenuItem {
     ZardRadioComponent,
     ZardSegmentedComponent,
     DecimalPipe,
+    CommonModule,
   ],
-  templateUrl: './app.html',
-  styleUrl: './app.css',
+  templateUrl: './property-detail.html',
+  styleUrl: './property-detail.css',
 })
-export class App {
-  // sidebar
-  readonly sidebarCollapsed = signal(false);
+export class PropertyDetail implements OnInit {
+  constructor(private activatedRoute: ActivatedRoute, private propertyService: PropertyService) {}
+  property!: Property;
 
-  mainMenuItems: MenuItem[] = [
-    { icon: 'house', label: 'Home', navigateUrl: '/' },
-    { icon: 'inbox', label: 'Inbox', navigateUrl: '/' },
-  ];
-
-  workspaceMenuItems: MenuItem[] = [
-    {
-      icon: 'folder',
-      label: 'Projects',
-      navigateUrl: '/',
-      submenu: [{ label: 'Design System' }, { label: 'Mobile App' }, { label: 'Website' }],
-    },
-    { icon: 'calendar', label: 'Calendar', navigateUrl: '/' },
-    { icon: 'search', label: 'Search', navigateUrl: '/' },
-  ];
-
-  toggleSidebar() {
-    this.sidebarCollapsed.update((collapsed) => !collapsed);
-  }
-
-  onCollapsedChange(collapsed: boolean) {
-    this.sidebarCollapsed.set(collapsed);
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe({
+      next: (paramMap) => {
+        // this.userName =
+        //   this.usersService.users.find((u) => u.id === paramMap.get('userId'))?.name || '';
+        console.log(paramMap.get('propertyId'));
+        this.propertyService.getPropertyById(paramMap.get('propertyId')!).subscribe((res) => {
+          this.property = res;
+        });
+      },
+    });
   }
 }

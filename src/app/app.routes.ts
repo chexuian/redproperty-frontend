@@ -1,3 +1,16 @@
 import { Routes } from '@angular/router';
+import { PropertyList } from './property-list/property-list';
+import { PropertyDetail } from './property-detail/property-detail';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '', //http://localhost:4200 OR http://localhost:4200/
+    component: PropertyList,
+    title: 'Property List',
+  },
+  {
+    path: 'property/:propertyId', //<domain>/users/{uid}
+    component: PropertyDetail,
+    title: 'Property Detail',
+  },
+];

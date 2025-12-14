@@ -73,4 +73,10 @@ export class PropertyService {
 
     return this.httpClient.get<PaginatedResponse<Property>>(url);
   }
+
+  getPropertyById(propertyId: string) {
+    return this.httpClient.get<Property>(
+      `http://localhost:8081/rest/api/v1/properties/${propertyId}`
+    );
+  }
 }

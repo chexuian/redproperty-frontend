@@ -1,0 +1,179 @@
+<div class="space-y-4 py-4 w-4/5 mx-auto">
+  <input
+    z-input
+    placeholder="Search Location"
+    class="h-12"
+    [(ngModel)]="selectedCity"
+    (keyup)="onSelectedCityChange()"
+  />
+
+  <z-segmented
+    [zOptions]="listingTypeOptions"
+    zDefaultValue="BUY"
+    (zChange)="onlistingTypeChange($event)"
+  />
+  <div>
+    <span style="margin-right: 10px">Property Type</span>
+    <z-segmented
+      [zOptions]="propertyCategoryOptions"
+      [zDefaultValue]="selectedPropertyCategory"
+      (zChange)="onPropertyCategoryChange($event)"
+    />
+  </div>
+  <div class="flex flex-col gap-3">
+    @if (selectedPropertyCategory === 'RESIDENTIAL') {
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="APARTMENT"
+    >
+      Apartment
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="CONDO"
+    >
+      Condo
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="VILLA"
+    >
+      Villa
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="TOWNHOUSE"
+    >
+      Townhouse
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="HOUSE"
+    >
+      House
+    </span>
+    } @if (selectedPropertyCategory === 'COMMERCIAL') {
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="OFFICE"
+    >
+      Office
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="SHOP"
+    >
+      Shop
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="WAREHOUSE"
+    >
+      Warehouse
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="FACTORY"
+    >
+      Factory
+    </span>
+    <span
+      z-radio
+      name="option"
+      [(ngModel)]="selectedPropertyType"
+      (ngModelChange)="onPropertyTypeChange($event)"
+      value="RETAIL_SPACE"
+    >
+      Retail Space
+    </span>
+    }
+  </div>
+  <div class="flex gap-2">
+    <span style="align-self: center">Price</span
+    ><input z-input placeholder="Min Price" class="h-12 w-1/10" />
+    <input z-input placeholder="Max Price" class="h-12 w-1/10" />
+  </div>
+
+  @for (property of propertiesPaginated?.content; track $index) {
+  <z-layout
+    class="overflow-hidden rounded-lg w-1/2 border-1"
+    [routerLink]="`/property/${property.id}`"
+    style="cursor: pointer"
+  >
+    <z-header class="h-16 justify-start border-0 bg-[#809bc2] text-white">
+      <z-avatar zSrc="https://zardui.com/images/avatar/imgs/avatar_image.jpg" zAlt="Zard UI" />
+      <div class="flex flex-col justify-center leading-tight px-5">
+        <span class="font-semibold text-lg">{{ property.agent.name }}</span>
+        <span class="text-sm">{{ property.agent.agency.name }}</span>
+      </div></z-header
+    >
+    <z-content class="min-h-[200px] bg-[#999] text-white p-0"
+      ><img
+        src="https://www.spacefactor.com.sg/wp-content/uploads/2020/08/an-earthy-palette-landed-interior-design-01.jpg"
+        alt=""
+    /></z-content>
+    <z-footer
+      class="border-0 bg-white text-black flex flex-col justify-center items-start h-36 w-full"
+    >
+      <div class="flex justify-between items-start mb-8 w-full">
+        <div class="flex flex-col">
+          <span class="font-semibold text-lg">{{ property.name }}</span>
+          <span class="text-sm flex items-center">
+            <z-icon zType="house" class="mr-1" />
+            {{ property.city }}, {{ property.state }}
+          </span>
+        </div>
+        <div class="flex flex-col items-end">
+          <span class="font-semibold text-lg">RM {{ property.price | number }}</span>
+          <span class="text-xs">Price</span>
+        </div>
+      </div>
+
+      <div class="flex gap-6">
+        <div class="flex flex-col items-center">
+          <span class="font-semibold">{{ property.bedrooms }}</span>
+          <span class="text-xs">Bedrooms</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="font-semibold">{{ property.bathrooms }}</span>
+          <span class="text-xs">Bathrooms</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="font-semibold">{{ property.carparks }}</span>
+          <span class="text-xs">Carparks</span>
+        </div>
+      </div>
+    </z-footer>
+  </z-layout>
+  }
+
+  <!-- <z-skeleton class="h-80 w-full" />
+      <z-skeleton class="h-16 w-full" /> -->
+</div>
