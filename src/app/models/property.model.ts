@@ -123,3 +123,12 @@ export interface PaginatedResponse<T> {
   number_of_elements: number;
   empty: boolean;
 }
+
+export interface FilterPropertyDto {
+  city?: string;
+  propertyListingType?: string;
+  propertyCategory?: string;
+  propertyType?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}

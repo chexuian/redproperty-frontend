@@ -16,6 +16,7 @@ import { ZardSkeletonComponent } from '@shared/components/skeleton/skeleton.comp
 import { ZardTooltipModule } from '@shared/components/tooltip/tooltip';
 import { PropertyService } from './services/property.service';
 import { PaginatedResponse, Property } from './models/property.model';
+import { DecimalPipe } from '@angular/common';
 
 interface MenuItem {
   icon: ZardIcon;
@@ -40,27 +41,32 @@ interface MenuItem {
     ZardInputDirective,
     ZardRadioComponent,
     ZardSegmentedComponent,
+    DecimalPipe,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App implements OnInit {
   propertiesPaginated?: PaginatedResponse<Property>;
+  selectedCity?: string;
+  onSelectedCityChange() {
+    this.onFilterUpdate();
+  }
+
   constructor(private propertyService: PropertyService) {}
 
   ngOnInit(): void {
-    this.propertyService.getAllProperties().subscribe((res) => {
-      console.log(res);
-      this.propertiesPaginated = res;
-    });
+    this.onFilterUpdate();
   }
   // listing type
   listingTypeOptions = [
-    { value: 'buy', label: 'Buy' },
-    { value: 'rent', label: 'Rent' },
+    { value: 'BUY', label: 'Buy' },
+    { value: 'RENT', label: 'Rent' },
   ];
+  selectedlistingType = 'BUY';
   onlistingTypeChange(value: string) {
-    console.log('Selected:', value);
+    this.selectedlistingType = value;
+    this.onFilterUpdate();
   }
 
   // property category
@@ -79,6 +85,27 @@ export class App implements OnInit {
     if (this.selectedPropertyCategory === 'COMMERCIAL') {
       this.selectedPropertyType = 'OFFICE';
     }
+    this.onFilterUpdate();
+  }
+
+  onPropertyTypeChange(newValue: string) {
+    this.onFilterUpdate();
+  }
+
+  onFilterUpdate() {
+    this.propertyService
+      .getAllProperties({
+        city: this.selectedCity,
+        propertyListingType: this.selectedlistingType,
+        propertyCategory: this.selectedPropertyCategory,
+        propertyType: this.selectedPropertyType,
+        minPrice: undefined,
+        maxPrice: undefined,
+      })
+      .subscribe((res) => {
+        console.log(res);
+        this.propertiesPaginated = res;
+      });
   }
 
   // sidebar
