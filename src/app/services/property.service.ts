@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FilterPropertyDto, PaginatedResponse, Property } from '../models/property.model';
+import {
+  Amenity,
+  Facility,
+  FilterPropertyDto,
+  PaginatedResponse,
+  Property,
+  PropertyCategory,
+  Tag,
+} from '../models/property.model';
 
 @Injectable({ providedIn: 'root' })
 export class PropertyService {
@@ -78,5 +86,25 @@ export class PropertyService {
     return this.httpClient.get<Property>(
       `http://localhost:8081/rest/api/v1/properties/${propertyId}`
     );
+  }
+
+  getAllAmenities() {
+    return this.httpClient.get<PaginatedResponse<Amenity>>(
+      `http://localhost:8081/rest/api/v1/amenities`
+    );
+  }
+
+  getAllFacilities() {
+    return this.httpClient.get<PaginatedResponse<Facility>>(
+      `http://localhost:8081/rest/api/v1/facilities`
+    );
+  }
+
+  getAllTags() {
+    return this.httpClient.get<PaginatedResponse<Tag>>(`http://localhost:8081/rest/api/v1/tags`);
+  }
+
+  createProperty(propertyData: Object) {
+    return this.httpClient.post('http://localhost:8081/rest/api/v1/properties', propertyData);
   }
 }
