@@ -1,55 +1,56 @@
 <div class="pricing-table-container">
 
   @if (plans.length > 0) {
-    <div class="feature-name-column">
-      <div class="header-space">Features</div>
-      <ul class="comparison-feature-list">
-        @for (feature of allUniqueFeatures; track feature.name) {
-          <li class="feature-row-name">
-            {{ feature.name }}
-            <span class="feature-description-text">{{ feature.description }}</span>
-          </li>
-        }
-      </ul>
-    </div>
-    
-    @for (plan of plans; track plan.id) {
-      <div class="pricing-card" 
-           [class.best-value]="plan.tier === 'PREMIUM'"> @if (plan.tier === 'PREMIUM') {
-          <div class="ribbon">⭐ Best Value</div>
-        }
+    <div class="pricing-grid">
 
-        <div class="card-header">
-          <h2 class="plan-name">{{ plan.name }}</h2>
-          <p class="plan-price">
-            ${{ plan.price | number:'1.2-2' }}
-            <span class="price-duration">/ {{ plan.duration_days }} days</span>
-          </p>
-          <button class="cta-button">
-            Select {{ plan.name }}
-          </button>
-        </div>
-
-        <ul class="comparison-feature-list plan-column">
-          @for (masterFeature of allUniqueFeatures; track masterFeature.name) {
-            @if (planHasFeature(plan, masterFeature.name); as planFeature) {
-              <li class="feature-row available">
-                @if (planFeature.unlimited) {
-                  <span class="icon checkmark">✅</span> Unlimited
-                } @else if (planFeature.limit !== null) {
-                  <span class="icon count">{{ planFeature.limit }}</span> Items
-                }
-              </li>
-            } @else {
-              <li class="feature-row unavailable">
-                <span class="icon cross">❌</span> Not Included
-              </li>
-            }
-          }
-        </ul>
-        
+      <div class="feature-name-column grid-header-cell">
+          Features
       </div>
-    }
+
+      @for (plan of plans; track plan.id) {
+          <div class="pricing-card grid-header-cell" 
+              [class.best-value]="plan.tier === 'PREMIUM'"> 
+              
+              @if (plan.tier === 'PREMIUM') {
+                  <div class="ribbon">⭐ Best Value</div>
+              }
+
+              <div class="card-header">
+                  <h2 class="plan-name">{{ plan.name }}</h2>
+                  <p class="plan-price">
+                      ${{ plan.price | number:'1.2-2' }}
+                      <span class="price-duration">/ {{ plan.duration_days }} days</span>
+                  </p>
+                  <button class="cta-button">
+                      Select {{ plan.name }}
+                  </button>
+              </div>
+          </div>
+      }
+
+      @for (masterFeature of allUniqueFeatures; track masterFeature.name) {
+          <div class="feature-row-name">
+              {{ masterFeature.name }}
+              <span class="feature-description-text">{{ masterFeature.description }}</span>
+          </div>
+
+          @for (plan of plans; track plan.id) {
+              @if (planHasFeature(plan, masterFeature.name); as planFeature) {
+                  <div class="feature-row available">
+                      @if (planFeature.unlimited) {
+                          <span class="icon checkmark">✅</span> Unlimited
+                      } @else if (planFeature.limit !== null) {
+                          <span class="icon count">{{ planFeature.limit }}</span> Items
+                      }
+                  </div>
+              } @else {
+                  <div class="feature-row unavailable">
+                      <span class="icon cross">❌</span> Not Included
+                  </div>
+              }
+          }
+      }
+    </div>
   } @else {
     <div class="loading-message">
         <p>Loading subscription plans...</p>

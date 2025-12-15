@@ -1,97 +1,146 @@
 /* --- Global Container and Layout --- */
 .pricing-table-container {
-    display: flex;
+    display: flex; 
     justify-content: center;
     padding: 80px 20px;
     background-color: #fafafa;
-    gap: 24px;
 }
 
-/* --- Feature Name Column (The left-most column) --- */
+/* --- Core Fix: CSS Grid Container --- */
+.pricing-grid {
+    display: grid;
+    /* Features: 280px; Plans: flexible */
+    grid-template-columns: 280px repeat(auto-fit, minmax(300px, 1fr));
+    gap: 0;
+    width: 100%;
+    max-width: 1400px;
+}
+
+/* --- General Cell Styling --- */
+.grid-header-cell,
+.feature-row-name,
+.feature-row {
+    background-color: #ffffff;
+    box-shadow: none; 
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- Left Column (Features) Styling --- */
 .feature-name-column {
-    width: 280px;
-    flex-shrink: 0;
     position: sticky;
     left: 0;
-    z-index: 10;
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    padding-bottom: 20px;
-}
-
-.header-space {
-    padding: 30px 25px 20px;
+    z-index: 20; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
     font-weight: 700;
     font-size: 1.6em;
     color: #1e293b;
     text-align: left;
-    height: 195px;
+    height: 100%; 
+    padding: 30px 25px 20px;
     display: flex;
     align-items: flex-end;
     border-bottom: 2px solid #e2e8f0;
 }
 
 .feature-row-name {
-    font-weight: 600;
-    color: #334155;
+    position: sticky;
+    left: 0;
+    z-index: 15;
+    background-color: #ffffff; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01); 
+
+    /* Main Feature Name Styling */
+    font-weight: 600; 
+    color: #334155; 
+    
     padding: 15px 25px;
     border-bottom: 1px solid #f1f5f9;
-    background-color: #ffffff;
-    min-height: 60px;
+    
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     justify-content: center;
-    transition: background-color 0.2s;
+    align-items: flex-start; 
 }
 
+/* --- Description Styles (Sub-Information) --- */
 .feature-description-text {
-    display: block;
-    font-size: 0.85em;
-    font-weight: normal;
-    color: #64748b;
+    display: block; 
+    font-size: 0.85em; 
+    font-weight: 400; /* Lighter weight */
+    color: #64748b; /* Muted color */
     margin-top: 2px;
 }
 
-/* --- Pricing Card (Columns) --- */
-.pricing-card {
-    width: 300px;
-    flex-shrink: 0;
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
+/* Ensure the sticky feature column maintains its full height and border/shadow integrity */
+.feature-name-column, .feature-row-name {
+    border-right: 1px solid #e2e8f0; 
+}
+.pricing-grid > :nth-last-child(-n+4):nth-child(4n+1) {
+    border-bottom-left-radius: 16px;
+    border-bottom: none; 
 }
 
-.pricing-card:hover {
+
+/* --- Pricing Card (Plan Column) Styling --- */
+.pricing-card {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    border-top-left-radius: 0;
+    height: 100%;
+}
+
+.card-header {
+    border-bottom: none; 
+    padding: 30px 20px 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+/* Best Value Column Highlight */
+.pricing-grid > .pricing-card.best-value {
+    transform: none; 
+    border: 3px solid #10b981;
+    box-shadow: 0 20px 40px rgba(40, 167, 69, 0.25);
+    z-index: 12; 
+}
+
+/* Hover effect on plan columns. */
+.pricing-grid > .pricing-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-.pricing-card.best-value {
-    transform: scale(1.05) translateY(-10px);
-    box-shadow: 0 20px 40px rgba(40, 167, 69, 0.25);
-    border: 3px solid #10b981;
-}
 
-/* --- Header Styling (FIX APPLIED HERE) --- */
-.card-header {
-    padding: 30px 20px 20px;
+/* --- Feature Rows Styling (Content Cells) --- */
+.feature-row {
+    padding: 18px 20px;
     text-align: center;
-    background-color: #ffffff;
-    border-bottom: 2px solid #e2e8f0;
-    height: 195px; 
+    font-weight: 600;
+    border-bottom: 1px solid #f1f5f9;
     
-    /* <<< FIX: Flexbox applied for spacing */
     display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
+    justify-content: center;
+    align-items: center;
 }
 
+/* Bottom right corner radius */
+.pricing-grid > :last-child {
+    border-bottom-right-radius: 16px;
+    border-bottom: none; 
+}
+
+/* --- Typography and Components --- */
 .plan-name {
     font-size: 1.8em;
     color: #1e293b;
@@ -104,6 +153,7 @@
     font-weight: 800;
     color: #1e293b;
     line-height: 1;
+    margin-bottom: 25px; 
 }
 
 .price-duration {
@@ -123,7 +173,6 @@
     font-size: 1.1em;
     font-weight: 700;
     cursor: pointer;
-    /* <<< FIX: Margin is now handled by Flexbox */
     margin-top: 0; 
     transition: background-color 0.3s, transform 0.1s;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
@@ -131,7 +180,6 @@
 
 .cta-button:hover {
     background-color: #059669;
-    transform: translateY(-2px);
 }
 
 .pricing-card.best-value .cta-button {
@@ -143,30 +191,6 @@
     background-color: #d97706;
 }
 
-/* --- Comparison Feature List --- */
-.comparison-feature-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.feature-row {
-    padding: 18px 20px;
-    text-align: center;
-    font-weight: 600;
-    border-bottom: 1px solid #f1f5f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 60px;
-}
-
-.feature-row-name:last-child,
-.feature-row:last-child {
-    border-bottom: none;
-}
-
-/* Available/Unavailable Styling */
 .available {
     color: #10b981;
 }
@@ -187,7 +211,6 @@
     font-size: 1.3em;
 }
 
-/* --- Ribbon (Best Value) Styling - Simplified Tag --- */
 .ribbon {
     position: absolute;
     top: 0;
@@ -199,12 +222,4 @@
     padding: 5px 15px;
     border-radius: 0 16px 0 16px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transform: none;
-    width: auto;
-    height: auto;
-    line-height: normal;
-}
-
-.ribbon::before {
-    content: none;
 }
