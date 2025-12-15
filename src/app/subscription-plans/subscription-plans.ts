@@ -52,13 +52,17 @@ export interface SubscriptionPlanViewModel {
 export class SubscriptionPlans implements OnInit{
   // plans?: SubscriptionPlanFeatureDto[];
   plans: SubscriptionPlanViewModel[] = [];
+  allUniqueFeatures: PlanFeature[] = [];
 
   constructor(private httpClient: HttpClient){}
 
   ngOnInit(): void {
     this.httpClient.get<PaginatedResponse<SubscriptionPlanFeatureDto>>('http://localhost:8081/rest/api/v1/subscription-plans').subscribe((res)=>{
 
-      this.plans = this.transformData(res.content);
+      const transformedPlans = this.transformData(res.content);
+            this.plans = transformedPlans;
+            // NEW: Generate the master list of features
+            this.allUniqueFeatures = this.generateUniqueFeaturesList(transformedPlans);
     })
   }
 
@@ -101,6 +105,25 @@ export class SubscriptionPlans implements OnInit{
       const order = { BASIC: 1, STANDARD: 2, PREMIUM: 3 };
       return order[a.tier] - order[b.tier];
     });
+  }
+
+  private generateUniqueFeaturesList(plans: SubscriptionPlanViewModel[]): PlanFeature[] {
+    const uniqueFeaturesMap = new Map<string, PlanFeature>();
+
+    plans.forEach(plan => {
+      plan.features.forEach(feature => {
+        // Use the feature name or code as the key for uniqueness
+        if (!uniqueFeaturesMap.has(feature.name)) {
+          uniqueFeaturesMap.set(feature.name, feature);
+        }
+      });
+    });
+
+    return Array.from(uniqueFeaturesMap.values());
+  }
+
+  planHasFeature(plan: SubscriptionPlanViewModel, featureName: string): PlanFeature | undefined {
+    return plan.features.find(f => f.name === featureName);
   }
 
 }

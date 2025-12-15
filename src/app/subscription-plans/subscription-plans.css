@@ -1,108 +1,210 @@
+/* --- Global Container and Layout --- */
 .pricing-table-container {
-  display: flex;
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
-  gap: 20px;
-  justify-content: center;
-  padding: 40px 20px;
-  background-color: #f4f7f9;
-}
-
-.pricing-card {
-  /* Set a base width to achieve three columns on desktop */
-  width: calc(33.333% - 20px); 
-  min-width: 280px; /* Minimum size for responsiveness */
-  
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.premium-highlight {
-  border: 3px solid #007bff; /* Highlight Premium plan */
-  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
-}
-
-.card-header {
-  text-align: center;
-}
-
-.plan-name {
-  font-size: 1.8em;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-.plan-price {
-  font-size: 2.5em;
-  font-weight: bold;
-  color: #007bff;
-  margin: 10px 0;
-}
-
-.price-duration {
-  font-size: 0.4em;
-  font-weight: normal;
-  color: #6c757d;
-}
-
-.cta-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 8px;
-  font-size: 1em;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-.feature-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
-}
-
-.feature-list li {
-  padding: 12px 0;
-  border-bottom: 1px dashed #eee;
-}
-
-.feature-title-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
+    justify-content: center;
+    padding: 80px 20px;
+    background-color: #fafafa;
+    gap: 24px;
 }
 
-.feature-name {
-  font-weight: 600;
-  color: #333;
+/* --- Feature Name Column (The left-most column) --- */
+.feature-name-column {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding-bottom: 20px;
+}
+
+.header-space {
+    padding: 30px 25px 20px;
+    font-weight: 700;
+    font-size: 1.6em;
+    color: #1e293b;
+    text-align: left;
+    height: 195px;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.feature-row-name {
+    font-weight: 600;
+    color: #334155;
+    padding: 15px 25px;
+    border-bottom: 1px solid #f1f5f9;
+    background-color: #ffffff;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background-color 0.2s;
 }
 
 .feature-description-text {
+    display: block;
     font-size: 0.85em;
-    color: #777;
+    font-weight: normal;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* --- Pricing Card (Columns) --- */
+.pricing-card {
+    width: 300px;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.pricing-card.best-value {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(40, 167, 69, 0.25);
+    border: 3px solid #10b981;
+}
+
+/* --- Header Styling (FIX APPLIED HERE) --- */
+.card-header {
+    padding: 30px 20px 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border-bottom: 2px solid #e2e8f0;
+    height: 195px; 
+    
+    /* <<< FIX: Flexbox applied for spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.plan-name {
+    font-size: 1.8em;
+    color: #1e293b;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.plan-price {
+    font-size: 3.2em;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1;
+}
+
+.price-duration {
+    font-size: 0.4em;
+    font-weight: 600;
+    color: #64748b;
+    display: block;
+    margin-top: 2px;
+}
+
+.cta-button {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    /* <<< FIX: Margin is now handled by Flexbox */
+    margin-top: 0; 
+    transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.cta-button:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+}
+
+.pricing-card.best-value .cta-button {
+    background-color: #f59e0b;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.pricing-card.best-value .cta-button:hover {
+    background-color: #d97706;
+}
+
+/* --- Comparison Feature List --- */
+.comparison-feature-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-.unlimited-tag {
-  background-color: #28a745;
-  color: white;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.7em;
-  font-weight: bold;
+.feature-row {
+    padding: 18px 20px;
+    text-align: center;
+    font-weight: 600;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
 }
 
-.limited-count {
-  background-color: #ffc107;
-  color: #333;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.7em;
-  font-weight: bold;
+.feature-row-name:last-child,
+.feature-row:last-child {
+    border-bottom: none;
+}
+
+/* Available/Unavailable Styling */
+.available {
+    color: #10b981;
+}
+
+.unavailable {
+    color: #ef4444;
+    background-color: #fefefe;
+}
+
+.icon {
+    font-size: 1.2em;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.icon.count {
+    color: #f59e0b;
+    font-size: 1.3em;
+}
+
+/* --- Ribbon (Best Value) Styling - Simplified Tag --- */
+.ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #f59e0b;
+    color: white;
+    font-size: 0.9em;
+    font-weight: 700;
+    padding: 5px 15px;
+    border-radius: 0 16px 0 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: none;
+    width: auto;
+    height: auto;
+    line-height: normal;
+}
+
+.ribbon::before {
+    content: none;
 }

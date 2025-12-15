@@ -1,9 +1,23 @@
 <div class="pricing-table-container">
 
   @if (plans.length > 0) {
+    <div class="feature-name-column">
+      <div class="header-space">Features</div>
+      <ul class="comparison-feature-list">
+        @for (feature of allUniqueFeatures; track feature.name) {
+          <li class="feature-row-name">
+            {{ feature.name }}
+            <span class="feature-description-text">{{ feature.description }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+    
     @for (plan of plans; track plan.id) {
       <div class="pricing-card" 
-           [class.premium-highlight]="plan.tier === 'PREMIUM'">
+           [class.best-value]="plan.tier === 'PREMIUM'"> @if (plan.tier === 'PREMIUM') {
+          <div class="ribbon">⭐ Best Value</div>
+        }
 
         <div class="card-header">
           <h2 class="plan-name">{{ plan.name }}</h2>
@@ -16,27 +30,21 @@
           </button>
         </div>
 
-        <hr>
-
-        <ul class="feature-list">
-          @for (feature of plan.features; track feature.name) {
-            <li>
-              <div class="feature-title-row">
-                  <span class="feature-name">{{ feature.name }}</span>
-                  
-                  <span class="feature-limit-status">
-                      @if (feature.unlimited) {
-                          <span class="unlimited-tag">Unlimited</span>
-                      } @else if (feature.limit !== null) {
-                          <span class="limited-count">{{ feature.limit }} Items</span>
-                      }
-                  </span>
-              </div>
-              <p class="feature-description-text">{{ feature.description }}</p>
-            </li>
-          }
-          @empty {
-            <li>No features defined.</li>
+        <ul class="comparison-feature-list plan-column">
+          @for (masterFeature of allUniqueFeatures; track masterFeature.name) {
+            @if (planHasFeature(plan, masterFeature.name); as planFeature) {
+              <li class="feature-row available">
+                @if (planFeature.unlimited) {
+                  <span class="icon checkmark">✅</span> Unlimited
+                } @else if (planFeature.limit !== null) {
+                  <span class="icon count">{{ planFeature.limit }}</span> Items
+                }
+              </li>
+            } @else {
+              <li class="feature-row unavailable">
+                <span class="icon cross">❌</span> Not Included
+              </li>
+            }
           }
         </ul>
         
@@ -44,7 +52,7 @@
     }
   } @else {
     <div class="loading-message">
-        <p>Loading subscription plans and features...</p>
+        <p>Loading subscription plans...</p>
     </div>
   }
 
