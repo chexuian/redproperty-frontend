@@ -107,4 +107,14 @@ export class PropertyService {
   createProperty(propertyData: Object) {
     return this.httpClient.post('http://localhost:8081/rest/api/v1/properties', propertyData);
   }
+
+  updateProperty(propertyData: Object) {
+    return this.httpClient.put('http://localhost:8081/rest/api/v1/properties', propertyData);
+  }
+
+  deletePropertyById(propertyId: string) {
+    return this.httpClient.delete(
+      `http://localhost:8081/rest/api/v1/properties/${propertyId}`
+    );
+  }
 }

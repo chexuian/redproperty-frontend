@@ -1,0 +1,263 @@
+<div class="property-form-container">
+  <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="modern-form">
+    <header class="form-header">
+      <h1 class="title">Property Listing Submission</h1>
+      <p class="subtitle">Enter the full details for the rental townhouse in Canning Garden.</p>
+    </header>
+
+    <section class="form-section">
+      <h2>🏠 Listing Basics</h2>
+      <div class="input-grid">
+        <div class="form-field">
+          <label for="name">Property Name</label>
+          <input id="name" type="text" formControlName="name" />
+          @if (propertyForm.get('name')?.invalid && propertyForm.get('name')?.touched) {
+          <div class="error-message">Name is required.</div>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="category">Category</label>
+          <div formGroupName="category">
+            <select id="category" formControlName="id">
+              <option value="" disabled>Select Category</option>
+              @for (category of mockCategoryData; track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="type">Type</label>
+          <div formGroupName="type">
+            <select id="type" formControlName="id">
+              <option value="" disabled>Select Type</option>
+              @for (type of mockTypeData; track type.id) {
+              <option [value]="type.id">{{ type.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field full-width">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4"></textarea>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2>💰 Property Specs & Pricing</h2>
+      <div class="input-grid three-cols">
+        <div class="form-field">
+          <label for="price">Price (MYR)</label>
+          <input id="price" type="number" formControlName="price" />
+        </div>
+        <div class="form-field">
+          <label for="area_sqft">Area (sqft)</label>
+          <input id="area_sqft" type="number" formControlName="area_sqft" />
+        </div>
+        <div class="form-field">
+          <label for="built_year">Built Year (YYYY)</label>
+          <input id="built_year" type="number" formControlName="built_year" />
+        </div>
+
+        <div class="form-field">
+          <label for="bedrooms">Bedrooms</label>
+          <input id="bedrooms" type="number" formControlName="bedrooms" />
+        </div>
+        <div class="form-field">
+          <label for="bathrooms">Bathrooms</label>
+          <input id="bathrooms" type="number" formControlName="bathrooms" />
+        </div>
+        <div class="form-field">
+          <label for="carparks">Carparks</label>
+          <input id="carparks" type="number" formControlName="carparks" />
+        </div>
+
+        <div class="form-field">
+          <label for="floor_level">Floor Level</label>
+          <input id="floor_level" type="text" formControlName="floor_level" />
+        </div>
+        <div class="form-field">
+          <label for="listing_type">Listing Type</label>
+          <select id="listing_type" formControlName="listing_type">
+            <option value="RENT">Rent</option>
+            <option value="BUY">Buy</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status">
+            <option value="AVAILABLE">AVAILABLE</option>
+            <option value="PENDING">PENDING</option>
+            <option value="RENTED">RENTED</option>
+            <option value="SOLD">SOLD</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2>📍 Location & Contact</h2>
+      <div class="input-grid two-cols">
+        <div class="form-field">
+          <label for="address">Address</label>
+          <input id="address" type="text" formControlName="address" />
+        </div>
+        <div class="form-field">
+          <label for="city">City</label>
+          <input id="city" type="text" formControlName="city" />
+        </div>
+        <div class="form-field">
+          <label for="state">State</label>
+          <input id="state" type="text" formControlName="state" />
+        </div>
+        <div class="form-field">
+          <label for="country">Country</label>
+          <input id="country" type="text" formControlName="country" />
+        </div>
+        <div class="form-field full-width">
+          <label for="agent">Agent</label>
+          <div formGroupName="agent">
+            <select id="agent" formControlName="id">
+              <option value="" disabled>Select Agent</option>
+              @for (agent of mockAgentData; track agent.id) {
+              <option [value]="agent.id">{{ agent.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section multi-select-section">
+      <h2>✨ Features & Tags</h2>
+      <p class="hint">Select all relevant amenities, facilities, and tags.</p>
+
+      <div class="feature-group">
+        <h3>Amenities</h3>
+        <div class="checkbox-container">
+          @for (amenity of amenitiesList; track amenity.id) {
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [checked]="isAmenitySelected(amenity.id)"
+              (change)="onAmenityChange($event, amenity.id)"
+            />
+            {{ amenity.name }}
+          </label>
+          }
+        </div>
+      </div>
+
+      <div class="feature-group">
+        <h3>Facilities</h3>
+        <div class="checkbox-container">
+          @for (facility of facilityList; track facility.id) {
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [checked]="isFacilitySelected(facility.id)"
+              (change)="onFacilityChange($event, facility.id)"
+            />
+            {{ facility.name }}
+          </label>
+          }
+        </div>
+      </div>
+      <div class="feature-group">
+        <h3>Tags</h3>
+        <div class="checkbox-container">
+          @for (tag of tagList; track tag.id) {
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [checked]="isTagSelected(tag.id)"
+              (change)="onTagChange($event, tag.id)"
+            />
+            {{ tag.name }}
+          </label>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section dynamic-array-section" formArrayName="images">
+      <h2>📸 Property Images</h2>
+      <p class="hint">Provide the URL and display order for each image.</p>
+
+      @for (imageControl of images.controls; track imageControl; let i = $index) {
+      <div [formGroupName]="i" class="array-item">
+        <h4>Image #{{ i + 1 }}</h4>
+        <div class="input-grid two-cols">
+          <div class="form-field">
+            <label for="image_url_{{ i }}">Image URL</label>
+            <input
+              id="image_url_{{ i }}"
+              type="url"
+              formControlName="image_url"
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+          <div class="form-field">
+            <label for="image_order_{{ i }}">Order</label>
+            <input id="image_order_{{ i }}" type="number" formControlName="image_order" min="1" />
+          </div>
+        </div>
+        <button type="button" class="remove-button" (click)="removeImage(i)">Remove Image</button>
+      </div>
+      } @empty {
+      <p class="hint">No images added yet.</p>
+      }
+
+      <button type="button" class="add-button" (click)="addImage()">+ Add New Image</button>
+    </section>
+
+    <section class="form-section dynamic-array-section" formArrayName="faqs">
+      <h2>❓ FAQs</h2>
+
+      @for (faqControl of faqs.controls; track faqControl; let i = $index) {
+      <div [formGroupName]="i" class="array-item">
+        <h4>FAQ #{{ i + 1 }}</h4>
+        <div class="input-grid three-cols">
+          <div class="form-field span-two">
+            <label>Question</label>
+            <input type="text" formControlName="question" />
+          </div>
+          <div class="form-field">
+            <label>Order</label>
+            <input type="number" formControlName="order_no" min="1" />
+          </div>
+          <div class="form-field full-width">
+            <label>Answer</label>
+            <textarea formControlName="answer" rows="2"></textarea>
+          </div>
+        </div>
+        <button type="button" class="remove-button" (click)="removeFaq(i)">Remove FAQ</button>
+      </div>
+      } @empty {
+      <p class="hint">No FAQs added yet.</p>
+      }
+
+      <button type="button" class="add-button" (click)="addFaq()">+ Add New FAQ</button>
+    </section>
+
+    <footer class="form-footer">
+      <div class="action-buttons">
+    <button type="submit" class="submit-button">
+      Update Property Details
+    </button>
+
+    <button
+      type="button"
+      class="delete-button"
+      (click)="onPropertyDelete()"
+    >
+      Delete Property
+    </button>
+  </div>
+    </footer>
+  </form>
+</div>

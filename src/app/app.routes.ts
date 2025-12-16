@@ -3,6 +3,7 @@ import { PropertyList } from './property-list/property-list';
 import { PropertyDetail } from './property-detail/property-detail';
 import { CreateProperty } from './create-property/create-property';
 import { SubscriptionPlans } from './subscription-plans/subscription-plans';
+import { ManageProperty } from './manage-property/manage-property';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,11 @@ export const routes: Routes = [
     path: 'property/:propertyId', //<domain>/users/{uid}
     component: PropertyDetail,
     title: 'Property Detail',
+  },
+  {
+    path: 'property/edit-property/:propertyId', //<domain>/users/{uid}
+    component: ManageProperty,
+    title: 'Manage Property Detail',
   },
   {
     path: 'subscription-plans', //<domain>/users/{uid}
