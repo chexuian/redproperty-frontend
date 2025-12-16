@@ -4,6 +4,7 @@ import { PropertyDetail } from './property-detail/property-detail';
 import { CreateProperty } from './create-property/create-property';
 import { SubscriptionPlans } from './subscription-plans/subscription-plans';
 import { ManageProperty } from './manage-property/manage-property';
+import { SignUpAgent } from './sign-up-agent/sign-up-agent';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,10 @@ export const routes: Routes = [
     path: 'subscription-plans', //<domain>/users/{uid}
     component: SubscriptionPlans,
     title: 'Subscription Plans',
+  },
+  {
+    path: 'sign-up/agent', //<domain>/users/{uid}
+    component: SignUpAgent,
+    title: 'Signing Up As An Agent',
   },
 ];

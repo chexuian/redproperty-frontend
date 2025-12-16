@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PaginatedResponse } from '../models/property.model';
 import { DecimalPipe } from '@angular/common';
 
-interface SubscriptionPlanDto {
+export interface SubscriptionPlanDto {
     id: string;
     name: string; // e.g., "Premium Plan"
     tier: 'BASIC' | 'STANDARD' | 'PREMIUM'; // Use a union type for Tiers
@@ -11,14 +11,14 @@ interface SubscriptionPlanDto {
     duration_days: number;
 }
 
-interface SubscriptionFeatureDto {
+export interface SubscriptionFeatureDto {
     id: string;
     code: string; // e.g., "AGENT_BADGE"
     name: string; // e.g., "Agent Badge"
     description: string;
 }
 
-interface SubscriptionPlanFeatureDto {
+export interface SubscriptionPlanFeatureDto {
   id: string;
   subscription_plan_dto: SubscriptionPlanDto;
   subscription_feature_dto: SubscriptionFeatureDto;
@@ -27,7 +27,7 @@ interface SubscriptionPlanFeatureDto {
 }
 
 // Interfaces for the Output (View Model)
-interface PlanFeature {
+export interface PlanFeature {
     name: string;
     description: string;
     limit: number | null;

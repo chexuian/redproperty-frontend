@@ -1,0 +1,133 @@
+<div class="signup-page-wrapper">
+    <div class="marketing-panel">
+        <div class="marketing-content">
+            <h2 class="marketing-title">Partner with the Premier Real Estate Network.</h2>
+            <p class="marketing-tagline">Gain industry-leading tools and connect with high-intent clients.</p>
+            
+            <ul class="benefit-list">
+                <li><i class="icon-check"></i> Verified Agent Status</li>
+                <li><i class="icon-check"></i> Advanced Listing Analytics</li>
+                <li><i class="icon-check"></i> Priority Support Access</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-wrapper">
+        <h1 class="page-header">Agent Registration</h1>
+        <p class="page-subheader">Complete your profile to join our platform.</p>
+
+        <form [formGroup]="agentForm" (ngSubmit)="onSubmit()" class="registration-form">
+
+            <div class="form-section-header">Your Account Details</div>
+            
+            <div class="input-grid">
+                <div class="form-field">
+                    <label for="name">Full Name</label>
+                    <input id="name" type="text" formControlName="name" placeholder="Enter your full legal name">
+                    @if (agentForm.get('name')?.invalid && agentForm.get('name')?.touched) {
+                        <span class="error-text">Name is required.</span>
+                    }
+                </div>
+                
+                <div class="form-field">
+                    <label for="email">Email Address</label>
+                    <input id="email" type="email" formControlName="email" placeholder="email@example.com">
+                    @if (agentForm.get('email')?.invalid && agentForm.get('email')?.touched) {
+                        <span class="error-text">Enter a valid email address.</span>
+                    }
+                </div>
+                
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" formControlName="password" placeholder="Minimum 8 characters">
+                </div>
+                <div class="form-field">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input id="confirmPassword" type="password" formControlName="confirmPassword">
+                    @if (agentForm.hasError('mismatch') && agentForm.get('confirmPassword')?.touched) {
+                        <span class="error-text">Passwords must match.</span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-field full-width">
+                <label for="contact_no">Contact Number</label>
+                <input id="contact_no" type="tel" formControlName="contact_no" placeholder="+44-123-456-7890">
+            </div>
+
+            <div class="form-field full-width">
+                <label for="profile_pic">Profile Picture URL (Optional)</label>
+                <input id="profile_pic" type="url" formControlName="profile_pic" placeholder="Paste link to your professional photo">
+            </div>
+
+            <div class="form-section-header">Professional Details</div>
+
+            <div class="input-grid">
+                <div class="form-field">
+                    <label for="license_number">License Number</label>
+                    <input id="license_number" type="text" formControlName="license_number" placeholder="Enter license number">
+                </div>
+                
+                <div class="form-field">
+                    <label for="agencyId">Select Agency</label>
+                    <select id="agencyId" formControlName="agencyId">
+                        <option value="" disabled>Search for your affiliated agency...</option>
+                        @for (agency of agencyOptions; track agency.id) {
+                            <option [value]="agency.id">{{ agency.name }}</option>
+                        }
+                    </select>
+                    @if (agentForm.get('agencyId')?.invalid && agentForm.get('agencyId')?.touched) {
+                        <span class="error-text">Agency selection is required.</span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-field full-width">
+                <label for="bio">Professional Bio</label>
+                <textarea id="bio" formControlName="bio" rows="4" placeholder="Briefly describe your experience and specialization (max 300 chars)"></textarea>
+                @if (agentForm.get('bio')?.invalid && agentForm.get('bio')?.touched) {
+                    <span class="error-text">A bio is required (max 300 characters).</span>
+                }
+            </div>
+
+            <div class="form-section-header">Choose Subscription Plan</div>
+            
+            <div class="plan-group">
+                @for (plan of subscriptionPlans; track plan.id; let i = $index) {
+                    <label 
+                        class="plan-card" 
+                        [class.selected]="agentForm.get('subscriptionId')?.value === plan.id"
+                        [class.best-value]="i === 2">
+                        
+                        <input type="radio" [value]="plan.id" formControlName="subscriptionId" [attr.name]="'plan-radio'">
+                        <div class="plan-header">
+                            <span class="plan-name">{{ plan.name }}</span>
+                            <span class="plan-price">${{ plan.price }}<span class="unit">/mo</span></span>
+                        </div>
+                        <ul class="plan-features">
+                            @for (feature of plan.features; track feature.name) {
+                                <li>{{ feature.name }}</li>
+                            }
+                        </ul>
+                    </label>
+                }
+            </div>
+            
+            <div class="terms-acceptance full-width">
+                <input type="checkbox" id="termsAccepted" formControlName="termsAccepted">
+                <label for="termsAccepted">
+                    I have read and agree to the <a href="#">Terms & Conditions</a>.
+                </label>
+                @if (agentForm.get('termsAccepted')?.invalid && agentForm.get('termsAccepted')?.touched) {
+                    <span class="error-text">You must accept the terms.</span>
+                }
+            </div>
+
+            <button type="submit" [disabled]="agentForm.invalid" class="submit-button full-width">
+                Register Agent Account
+            </button>
+            
+            <p class="login-prompt">Already registered? <a routerLink="/login">Log in here</a></p>
+        </form>
+    </div>
+</div>

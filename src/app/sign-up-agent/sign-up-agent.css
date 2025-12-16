@@ -1,0 +1,438 @@
+:root {
+    --color-primary: #00796b; /* Strong Teal */
+    --color-secondary: #ffb300; /* Amber/Gold Accent */
+    --color-background: #f4f6f8;
+    --color-text-dark: #212529;
+    --color-text-medium: #6c757d;
+    --color-border: #ced4da; /* Clearer default border */
+    --color-error: #dc3545;
+    --color-focus: #00a08e; /* Lighter primary for focus */
+    /* New: For the Ribbon Effect */
+    --color-ribbon: #ffb300; /* Primary ribbon color (Amber) */
+    --color-ribbon-shadow: #cc8e00; /* Darker amber for fold */
+}
+
+/* Base and Layout Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif, Arial, sans-serif;
+    line-height: 1.5;
+    background-color: var(--color-background);
+}
+
+.signup-page-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ----------------------------------
+   1. MARKETING PANEL (LEFT) - SCALED DOWN
+   ---------------------------------- */
+.marketing-panel {
+    flex: 0.6; /* Reduced flex ratio (was 0.8) */
+    background-color: var(--color-primary);
+    color: white;
+    padding: 40px; /* Reduced padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.marketing-content {
+    max-width: 350px; /* Reduced max-width */
+}
+
+.marketing-title {
+    font-size: 2em; /* Reduced font size (was 2.5em) */
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.marketing-tagline {
+    font-size: 1em; /* Reduced font size (was 1.1em) */
+    opacity: 0.9;
+    margin-bottom: 30px; /* Reduced margin */
+}
+
+.benefit-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.benefit-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px; /* Reduced margin */
+    font-size: 0.95em; /* Reduced font size */
+    font-weight: 500;
+}
+
+.benefit-list .icon-check {
+    /* Simple checkmark placeholder */
+    background: var(--color-secondary);
+    width: 16px; /* Reduced size */
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 10px; /* Reduced margin */
+    flex-shrink: 0;
+}
+
+/* ----------------------------------
+   2. FORM WRAPPER (RIGHT)
+   ---------------------------------- */
+.form-wrapper {
+    flex: 1.9; /* Increased flex ratio to balance (was 1.7) */
+    padding: 50px 70px;
+    background-color: white;
+    overflow-y: auto;
+}
+
+.page-header {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--color-text-dark);
+}
+
+.page-subheader {
+    color: var(--color-text-medium);
+    margin-bottom: 30px;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-section-header {
+    font-size: 1.25em;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* --- Input Grid for Two Columns --- */
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field.full-width {
+    grid-column: span 2;
+}
+
+.form-field label {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 4px;
+}
+
+/* --- Input and Select Styling --- */
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="tel"],
+.form-field input[type="url"],
+.form-field input[type="password"],
+.form-field textarea,
+.form-field select {
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 1em;
+    color: var(--color-text-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: var(--color-focus);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.15);
+}
+
+.form-field ::placeholder {
+    color: var(--color-text-medium);
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.form-field textarea {
+    resize: vertical;
+}
+
+.error-text {
+    color: var(--color-error);
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+
+/* ----------------------------------
+   3. PLAN SELECTION (CENTERED BADGE)
+   ---------------------------------- */
+.plan-group {
+    display: flex;
+    gap: 15px;
+    /* Added margin to the entire group to make room for the badge */
+    margin-top: 20px; 
+    margin-bottom: 10px;
+}
+
+.plan-card {
+    flex: 1;
+    display: block;
+    cursor: pointer;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 25px 20px; 
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* CRUCIAL: Allow the badge to draw outside the card boundaries without being clipped */
+    overflow: visible; 
+}
+
+.plan-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.plan-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); 
+    transform: translateY(-2px);
+}
+
+.plan-card.selected {
+    border-color: var(--color-primary);
+    background-color: #f0fdfa;
+    box-shadow: 0 6px 15px rgba(0, 121, 107, 0.2);
+}
+
+/* === Highlighting the "Best Value" plan with a TOP CENTER BADGE === */
+.plan-card.best-value {
+    border-color: var(--color-secondary);
+    /* Removed margin-top, cards will now align perfectly */
+    margin-top: 0; 
+}
+
+/* Centered Badge Element (position adjusted for visibility) */
+.plan-card.best-value::before {
+    content: "⭐ BEST VALUE";
+    position: absolute;
+    /* Move up slightly into the negative space created by plan-group margin-top */
+    top: -15px; 
+    left: 50%;
+    /* Use translate to center perfectly horizontally */
+    transform: translateX(-50%); 
+    width: 130px; 
+    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+    font-size: 0.8em;
+    font-weight: 700;
+    text-align: center;
+    padding: 5px 0;
+    line-height: 1.2;
+    z-index: 15;
+    border-radius: 8px; /* Use full rounding for a pill/badge look */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+/* Remove the old ribbon fold (no longer needed) */
+.plan-card.best-value::after {
+    content: none; 
+}
+
+/* === End Centered Badge Styles === */
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--color-border);
+}
+
+.plan-name {
+    font-size: 1.25em; 
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.plan-price {
+    font-size: 2em; 
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1; 
+}
+
+.plan-price .unit {
+    font-size: 0.4em; 
+    font-weight: 500;
+    color: var(--color-text-medium);
+    vertical-align: top; 
+    margin-left: 2px;
+}
+
+.plan-features {
+    list-style: none; 
+    padding-left: 0;
+    font-size: 0.95em;
+    color: var(--color-text-dark);
+}
+
+.plan-features li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.plan-features li::before {
+    content: "✓"; 
+    color: var(--color-primary);
+    font-weight: 900;
+    margin-right: 8px;
+    font-size: 1.1em;
+    line-height: 1;
+}
+
+/* ----------------------------------
+   4. TERMS AND SUBMIT
+   ---------------------------------- */
+.terms-acceptance {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95em;
+    margin-top: 5px;
+}
+
+.terms-acceptance input[type="checkbox"] {
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.terms-acceptance a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.submit-button {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    margin-top: 10px;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: var(--color-focus);
+    color: black;
+    
+}
+
+.submit-button:disabled {
+    background-color: #a0a8b1;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.login-prompt {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--color-text-medium);
+}
+
+.login-prompt a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ----------------------------------
+   5. MEDIA QUERIES (Responsive)
+   ---------------------------------- */
+@media (max-width: 1200px) {
+    .marketing-panel {
+        flex: 0.7; 
+        padding: 40px;
+    }
+    .form-wrapper {
+        flex: 1.8;
+        padding: 40px 50px;
+    }
+}
+
+@media (max-width: 992px) {
+    .signup-page-wrapper {
+        flex-direction: column;
+    }
+
+    .marketing-panel {
+        height: 250px;
+        padding: 40px;
+        border-radius: 0;
+        text-align: center;
+        flex: unset;
+    }
+
+    .marketing-content {
+        max-width: none;
+    }
+
+    .form-wrapper {
+        padding: 40px;
+        flex: unset;
+    }
+    
+    /* Ensure centered badge remains centered on small screens */
+    .plan-card.best-value {
+        margin-top: 0; 
+    }
+    .plan-card.best-value::before {
+        transform: translateX(-50%);
+        top: -15px;
+        left: 50%;
+        width: 120px;
+    }
+}
+
+@media (max-width: 600px) {
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .plan-group {
+        flex-direction: column;
+        margin-top: 30px; /* Adjust top margin for stacked cards */
+    }
+    /* Ensure the badge is visible on the first card in the stack */
+    .plan-group .plan-card:first-child.best-value::before {
+         top: -15px;
+    }
+}
